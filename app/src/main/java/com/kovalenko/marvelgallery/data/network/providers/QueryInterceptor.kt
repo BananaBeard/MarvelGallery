@@ -10,7 +10,10 @@ fun makeAddSecurityQueryInterceptor() = Interceptor { chain ->
     val url = originalRequest.url().newBuilder()
             .addQueryParameter("apikey", BuildConfig.PUBLIC_KEY)
             .addQueryParameter("ts", "$timeStamp")
-            .addQueryParameter("hash", calculatedMd5(timeStamp.toString() + BuildConfig.PRIVATE_KEY + BuildConfig.PUBLIC_KEY))
+            .addQueryParameter(
+                    "hash",
+                    calculatedMd5(timeStamp.toString() +
+                    BuildConfig.PRIVATE_KEY + BuildConfig.PUBLIC_KEY))
             .build()
 
     val request = originalRequest

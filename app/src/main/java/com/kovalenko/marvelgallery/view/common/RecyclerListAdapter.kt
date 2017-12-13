@@ -3,6 +3,7 @@ package com.kovalenko.marvelgallery.view.common
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.kovalenko.marvelgallery.R
 
 
 open class RecyclerListAdapter(
@@ -15,12 +16,7 @@ open class RecyclerListAdapter(
 
     override final fun onCreateViewHolder(parent: ViewGroup, layoutId: Int): RecyclerView.ViewHolder {
 
-        val itemView = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
-
-        var params: RecyclerView.LayoutParams = itemView.layoutParams as RecyclerView.LayoutParams
-        params.height = parent.measuredHeight/4
-
-        itemView.layoutParams = params
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.character_card, parent, false)
 
         return items.first{ it.layoutId == layoutId }.onCreateViewHolder(itemView)
     }

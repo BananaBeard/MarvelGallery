@@ -25,7 +25,7 @@ class CharacterItemAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-        val textView by bindView<TextView>(R.id.textView)
-        val imageView by bindView<ImageView>(R.id.imageView)
+        val textView by bindView<TextView>(R.id.character_name)
+        val imageView by bindView<ImageView>(R.id.character_image)
     }
 }

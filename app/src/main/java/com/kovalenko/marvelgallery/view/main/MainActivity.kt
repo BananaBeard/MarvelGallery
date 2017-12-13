@@ -1,9 +1,12 @@
 package com.kovalenko.marvelgallery.view.main
 
+import android.graphics.Rect
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.Window
 import com.kovalenko.marvelgallery.R
 import com.kovalenko.marvelgallery.data.MarvelRepository
@@ -16,6 +19,15 @@ import com.kovalenko.marvelgallery.view.common.addOnTextChangedListener
 import com.kovalenko.marvelgallery.view.common.bindToSwipeRefresh
 import com.kovalenko.marvelgallery.view.common.toast
 import kotlinx.android.synthetic.main.activity_main.*
+import android.util.TypedValue
+import android.widget.SearchView
+import android.provider.SyncStateContract.Helpers.update
+import android.support.v4.view.MenuItemCompat.setOnActionExpandListener
+import com.kovalenko.marvelgallery.R.id.searchView
+import android.support.v4.widget.SearchViewCompat.setOnQueryTextListener
+
+
+
 
 class MainActivity : BaseActivityWithPresenter(), MainView {
 
@@ -29,17 +41,26 @@ class MainActivity : BaseActivityWithPresenter(), MainView {
         setContentView(R.layout.activity_main)
 
         recyclerView.layoutManager = GridLayoutManager(this, 2)
+
         swipeRefreshView.setOnRefreshListener {
             presenter.onRefresh()
         }
 
         swipeRefreshView.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
 
-        searchView.addOnTextChangedListener {
-            onTextChanged { text, _, _, _ ->
-                presenter.onSearchChanged(text)
+        searchView.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                presenter.onSearchChanged(query!!)
+
+                return true
             }
-        }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                presenter.onSearchChanged(newText)
+
+                return true
+            }
+        })
 
         presenter.onViewCreated()
     }
